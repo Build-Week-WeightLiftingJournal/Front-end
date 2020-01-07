@@ -5,11 +5,9 @@ import { Link } from "react-router-dom";
 import WorkoutCard from "./WorkoutCard";
 
 import { makeStyles } from '@material-ui/core/styles';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+
 import EditIcon from '@material-ui/icons/Edit';
-import MoreVertSharpIcon from '@material-ui/icons/MoreVertSharp';
-import Button from '@material-ui/core/Button';
+
 
 
 const workouts = [
