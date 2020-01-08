@@ -4,46 +4,49 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import WorkoutCard from "./WorkoutCard";
 
-const workouts = [
-    {
-        id: 0,
-        name: "Bench Press",
-        weight: "185",
-        reps: "10",
-        date: "2019-12-31",
-        region: "chest"
-    },
-    {
-        id: 1,
-        name: "Squat",
-        weight: "185",
-        reps: "10",
-        date: "2019-12-31",
-        region: "chest"
-    },
-    {
-        id: 2,
-        name: "Push Press",
-        weight: "185",
-        reps: "10",
-        date: "2019-12-31",
-        region: "shoulders"
-    },
-]
+// const workouts = [
+//     {
+//         id: 0,
+//         name: "Bench Press",
+//         weight: "185",
+//         reps: "10",
+//         date: "2019-12-31",
+//         region: "chest"
+//     },
+//     {
+//         id: 1,
+//         name: "Squat",
+//         weight: "185",
+//         reps: "10",
+//         date: "2019-12-31",
+//         region: "chest"
+//     },
+//     {
+//         id: 2,
+//         name: "Push Press",
+//         weight: "185",
+//         reps: "10",
+//         date: "2019-12-31",
+//         region: "shoulders"
+//     },
+// ]
 
 const WorkoutList = () => {
     const [workout, setWorkout] = useState([])
     useEffect(() => {
         const getWorkouts = () => {
-            // axios
-            //     .get('')
-            //     .then( res => {
-            //         setWorkout(res.)
-            //     })
-            //     .catch( err => {
-            //         console.log("unable to grab workouts", err)
-            //     })
-            setWorkout(workouts);
+            axios
+                .get("https://weightlifting-app.herokuapp.com/workouts",
+                
+                )
+                .then( res => {
+                    console.log(res)
+                    // setWorkout(res.data.results)
+                })
+                .catch( err => {
+                    console.log("unable to grab workouts", err)
+                })
+            // setWorkout(workouts);
         }
         getWorkouts();
     }, []);
@@ -73,7 +76,7 @@ const WorkoutList = () => {
 
 export default WorkoutList;
 
-export {workouts};
+// export {workouts};
 
 
 // This is where you map over WorkoutCard to display the data that is being shown. 
