@@ -33,13 +33,15 @@ const UpdateWorkout = (props) => {
     }));
     const classes = useStyles(1);
 
-    const [workout, setWorkout] = useState({
-        name: "",
-        region: "",
-        reps: "",
-        weight: "",
-        date: ""
-    });
+    const [workout, setWorkout] = useState(
+        {
+            name: "",
+            region: "",
+            reps: "",
+            weight: "",
+            date: ""
+        }
+    );
 
     useEffect(() => {
         axios
@@ -77,24 +79,23 @@ const UpdateWorkout = (props) => {
             <h2>UPDATE WORKOUT</h2>
             <div>
                 <TextField
-                    id="workoutName"
+                    id="name"
                     required="true"
                     className={classes.textField}
                     label="Workout Name"
-                    // helperText="What is your exercise called?"
                     margin="normal"
                     variant="outlined"
+                    name="name"
                     onChange={handleChanges}
-                    name="workoutName"
                     value={workout.name}
                 />
             </div>
             <div>
                 <TextField 
                     id="region"
+                    required="true"
                     className={classes.textField}
                     label="Muscle Region"
-                    // helperText="Muscle group this targets"
                     margin="normal"
                     variant="outlined"
                     onChange={handleChanges}
@@ -115,6 +116,7 @@ const UpdateWorkout = (props) => {
                             step: "1"
                         }
                     }
+                    onInput={workout.reps=Math.round(workout.reps)}
                     margin="normal"
                     variant="outlined"
                     onChange={handleChanges}
@@ -134,6 +136,7 @@ const UpdateWorkout = (props) => {
                             step: "1"
                         }
                     }
+                    onInput={workout.weight=parseInt(workout.weight, 10)}
                     margin="normal"
                     variant="outlined"
                     onChange={handleChanges}
@@ -149,12 +152,12 @@ const UpdateWorkout = (props) => {
                     type="date"
                     margin="normal"
                     variant="outlined"
-                    onChange={handleChanges}
                     name="date"
+                    onChange={handleChanges}
                     value={workout.date}
                 />
             </div>
-            <button className="submit-button" onClick={submitForm}>Save</button>
+            <button className="submit-button">Save</button>
         </form>
     )
 }

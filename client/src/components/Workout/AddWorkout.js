@@ -21,6 +21,7 @@ const AddWorkout = props => {
   };
 
   const handleSubmit = e => {
+    e.preventDefault();
     props.addWorkout();
   };
 
@@ -59,10 +60,12 @@ const AddWorkout = props => {
         <div>
           <TextField
             id="name"
+            required="true"
             className={classes.textField}
             label="Workout Name"
             margin="normal"
             variant="outlined"
+            name="name"
             onChange={handleChanges}
             value={newWorkout.name}
           />
@@ -70,10 +73,12 @@ const AddWorkout = props => {
         <div>
           <TextField
             id="region"
+            required="true"
             className={classes.textField}
             label="Muscle Region"
             margin="normal"
             variant="outlined"
+            name="region"
             onChange={handleChanges}
             value={newWorkout.region}
           />
@@ -81,10 +86,20 @@ const AddWorkout = props => {
         <div>
           <TextField
             id="reps"
+            required="true"
             className={classes.textField}
             label="Reps"
             margin="normal"
             variant="outlined"
+            name="reps"
+            type="number"
+            inputProps={
+              {
+                  min: "0",
+                  step: "1"
+              }
+            }
+            onInput={newWorkout.reps=Math.round(newWorkout.reps)}
             onChange={handleChanges}
             value={newWorkout.reps}
           />
@@ -95,10 +110,13 @@ const AddWorkout = props => {
             className={classes.textField}
             label="lbs"
             type="number"
-            inputProps={{
-              min: "0",
-              step: "1"
-            }}
+            inputProps={
+              {
+                min: "0",
+                step: "1"
+              }
+            }
+            onInput={newWorkout.weight=parseInt(newWorkout.weight, 10)}
             margin="normal"
             variant="outlined"
             onChange={handleChanges}
@@ -109,10 +127,12 @@ const AddWorkout = props => {
         <div>
           <TextField
             id="date"
+            required="true"
             className={classes.textField}
             type="date"
             margin="normal"
             variant="outlined"
+            name="date"
             onChange={handleChanges}
             value={newWorkout.date}
           />
