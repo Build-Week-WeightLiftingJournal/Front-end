@@ -28,7 +28,7 @@
 }
 
 .home-container button{
-  width: 500px;
+  width: 80%;
   height: 50px;
   margin: 10px;
   border-radius: 5px;
@@ -59,7 +59,7 @@
 
 .add-button:hover{
   transform: translateY(-2px);
-  box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 5px 5px 5px rgba(90, 89, 136, 0.12);
 }
 
 .delete-button{
@@ -102,19 +102,43 @@
   border-radius: 5px;
 }
 
+.workout:hover{
+  border: 2px solid #00A35E;
+}
+
+
 h2{
   font-weight: normal;
 }
 
 .workout-container{
   border: 2px solid #ffff;
-  margin: 30px auto;
+  margin: 20px auto;
   font-size: 1.2rem;
   width: 300px;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px 1px rgba(111, 111, 121, 0.12);
+  box-shadow: 0 5px 5px 5px rgba(90, 89, 136, 0.12);
 }
 
 .workout-container button{
   margin: 1rem;
+}
+
+
+.back-button{
+  margin-top: 1%;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 1rem;
+  border: 2px solid #d1d1d1;
+}
+
+/* Workout card individual name */
+.workout-card{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.workout-card p{
+  margin-right: 10px;
 }

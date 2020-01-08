@@ -2,9 +2,10 @@ import React from "react";
 import {useState, useEffect} from "react";
 import { workouts } from "./WorkoutList";
 import axios from "axios";
+import {Link} from "react-router-dom"
 
 
-const Workout = (props) => {
+const Workout = props => {
     const [workout, setWorkout] = useState([])
     console.log(props);
     
@@ -26,21 +27,36 @@ const Workout = (props) => {
 
    console.log(workouts);
 
-   const edit = e => {
+   const editWorkout = e => {
     e.preventDefault();
     props.history.push(`/updateworkout/${workout.id}`);
   };
 
-    return (
-        <div className="workout-container">
-            <h3>{`${workout.name}`}</h3>
-            <p>{`Weight: ${workout.weight} lbs`}</p>
-            <p>{`Reps Completed: ${workout.reps}`}</p>
-            <p>{`Date: ${workout.date}`}</p>
-            <p>{`Region: ${workout.region}`}</p>
+  const deleteWorkout = e => {
+      e.preventDefault();
+      // delete request
+      axios
+        .delete(`workout/${workout.id}`)
+        .then(res => {
+            setWorkout(res.data)
+            props.history.push("/workout")
+        })
+        .catch(err => console.log(err))
+    }
 
-            <button className="submit-button">Edit</button>
-            <button className="delete-button">Delete</button>
+    return (
+        <div>
+            <Link to="/workout"><button className="back-button">go back</button></Link>
+            <div className="workout-container">
+                <h3>{`${workout.name}`}</h3>
+                <p>{`Weight: ${workout.weight} lbs`}</p>
+                <p>{`Reps Completed: ${workout.reps}`}</p>
+                <p>{`Date: ${workout.date}`}</p>
+                <p>{`Region: ${workout.region}`}</p>
+
+                <button className="submit-button">Edit</button>
+                <button className="delete-button">Delete</button>
+            </div>
         </div>
     )
 }
