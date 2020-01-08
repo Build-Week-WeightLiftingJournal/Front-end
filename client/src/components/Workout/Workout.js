@@ -1,6 +1,6 @@
 import React from "react";
 import {useState, useEffect} from "react";
-import { workouts } from "./WorkoutList";
+// import { workouts } from "./WorkoutList";
 import axios from "axios";
 import {Link} from "react-router-dom"
 
@@ -13,19 +13,19 @@ const Workout = props => {
     useEffect(() => {
         const id = props.match.params.id
 
-        // axios
-        //     .get(`${id}`)
-        //     .then(response => {
-        //         setWorkout(response.);
-        //      })
-        //     .catch(error => {
-        //         console.error(error);
-        //     });
+        axios
+            .get(`https://weightlifting-app.herokuapp.com/workouts/${id}`)
+            .then(response => {
+                setWorkout(response.dta);
+             })
+            .catch(error => {
+                console.error(error);
+            });
 
-          setWorkout(workouts[id]) 
+        //   setWorkout(workouts[id]) 
     }, [props.match.params.id])
 
-   console.log(workouts);
+//    console.log(workouts);
 
    const editWorkout = e => {
     e.preventDefault();
