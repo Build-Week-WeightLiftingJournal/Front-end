@@ -4,15 +4,6 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import WorkoutCard from "./WorkoutCard";
 
-<<<<<<< HEAD
-import { makeStyles } from '@material-ui/core/styles';
-
-import EditIcon from '@material-ui/icons/Edit';
-
-
-
-=======
->>>>>>> 0cbb0781d8d2b505186eb39a9a17f2cc9139aa66
 const workouts = [
     {
         id: 0,
