@@ -10,8 +10,8 @@ export const getLoggedIn = creds => dispatch => {
   return axios
     .post("https://weightlifting-app.herokuapp.com/api/login", creds)
     .then(res => {
-      localStorage.setItem("token", res.data.payload);
-      dispatch({ type: LOGIN_SUCCESS, payload: res.data.payload });
+      localStorage.setItem("token", res.data.token);
+      dispatch({ type: LOGIN_SUCCESS, payload: res.data });
       console.log(res);
     })
     .catch(err => {

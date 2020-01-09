@@ -1,19 +1,42 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
+import {Link} from "react-router-dom";
+import axios from "axios"
+import jwt from "jsonwebtoken"
 
 import { connect } from "react-redux";
 import { addWorkout } from "../../actions/workoutActions";
+import { axiosWithAuth } from "../../utils/axiosWithAuth";
 
 const AddWorkout = props => {
+  const user = jwt.decode(localStorage.getItem("token"))
+  console.log("USERID", user.id)
   const [newWorkout, setNewWorkout] = useState({
-    id: Date.now(),
     name: "",
+    user_id: user.id,
     region: "",
     reps: "",
     weight: "",
     date: ""
   });
+
+  const [workouts, setWorkouts] = useState([])
+    useEffect(() => {
+        // const getWorkouts = () => {
+            axiosWithAuth()
+                .get('/workouts')
+                .then( res => {
+                    console.log(res)
+                    setWorkouts(res.data)
+                })
+                .catch( err => {
+                    console.log("unable to grab workouts", err)
+                })
+            // setWorkout(workouts);
+        // }
+        // getWorkouts();
+    }, []);
 
   const handleChanges = e => {
     e.preventDefault();
@@ -22,7 +45,13 @@ const AddWorkout = props => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    props.addWorkout();
+    axiosWithAuth()
+      .post("/workouts", newWorkout)
+      .then(res => {
+        setWorkouts({...workouts, newWorkout})
+      })
+      .catch(err => console.log(err.response))
+    props.history.push("/workout")
   };
 
   const useStyles = makeStyles(theme => ({
@@ -34,7 +63,7 @@ const AddWorkout = props => {
       background: "white",
       width: 400,
       height: 530,
-      margin: "50px auto",
+      margin: "20px auto",
       boxShadow: "0 5px 5px 5px rgba(90, 89, 136, 0.12)"
     },
     textField: {
@@ -55,12 +84,13 @@ const AddWorkout = props => {
 
   return (
     <div>
+      <Link to="/workout"><button className="back-button">go back</button></Link>
       <form className={classes.container} onSubmit={handleSubmit}>
         <h2>ADD A WORKOUT</h2>
         <div>
           <TextField
             id="name"
-            required="true"
+            // required="true"
             className={classes.textField}
             label="Workout Name"
             margin="normal"
@@ -73,7 +103,7 @@ const AddWorkout = props => {
         <div>
           <TextField
             id="region"
-            required="true"
+            // required="true"
             className={classes.textField}
             label="Muscle Region"
             margin="normal"
@@ -86,7 +116,7 @@ const AddWorkout = props => {
         <div>
           <TextField
             id="reps"
-            required="true"
+            // required="true"
             className={classes.textField}
             label="Reps"
             margin="normal"
@@ -99,7 +129,7 @@ const AddWorkout = props => {
                   step: "1"
               }
             }
-            onInput={newWorkout.reps=Math.round(newWorkout.reps)}
+            // onInput={newWorkout.reps=Math.round(newWorkout.reps)}
             onChange={handleChanges}
             value={newWorkout.reps}
           />
@@ -116,7 +146,7 @@ const AddWorkout = props => {
                 step: "1"
               }
             }
-            onInput={newWorkout.weight=parseInt(newWorkout.weight, 10)}
+            // onInput={newWorkout.weight=parseInt(newWorkout.weight, 10)}
             margin="normal"
             variant="outlined"
             onChange={handleChanges}
@@ -127,11 +157,11 @@ const AddWorkout = props => {
         <div>
           <TextField
             id="date"
-            required="true"
+            // required="true"
             className={classes.textField}
-            type="date"
             margin="normal"
             variant="outlined"
+            type="date"
             name="date"
             onChange={handleChanges}
             value={newWorkout.date}

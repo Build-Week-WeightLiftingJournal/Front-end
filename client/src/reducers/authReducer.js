@@ -4,8 +4,10 @@ import {
   SIGNUP_SUCCESS,
   SIGNUP_FAIL
 } from "../actions/authActions";
+import jwt from "jsonwebtoken"
 
 const initialState = {
+  user: jwt.decode(localStorage.getItem("token")),
   isLoggedIn: false,
   isSignedUp: false,
   isLoading: false,

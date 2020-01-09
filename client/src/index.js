@@ -8,6 +8,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { createStore, applyMiddleware, combineReducers } from "redux";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
+import logger from "redux-logger";
 
 import { authReducer } from "./reducers/authReducer";
 import { workoutReducer } from "./reducers/workoutReducer";
@@ -17,7 +18,7 @@ const rootReducer = combineReducers({
   workoutReducer
 });
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
+const store = createStore(rootReducer, applyMiddleware(thunk, logger));
 
 ReactDOM.render(
   <Provider store={store}>

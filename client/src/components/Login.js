@@ -6,8 +6,10 @@ import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { getLoggedIn } from "../actions/authActions";
+import jwt from "jsonwebtoken"
 
 const Login = props => {
+  console.log(jwt.decode(localStorage.getItem("token")))
   const useStyles = makeStyles(theme => ({
     container: {
       display: "flex",
