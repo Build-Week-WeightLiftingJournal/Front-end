@@ -1,35 +1,39 @@
-import axiosWithAuth from "axios";
-import axios from "axios";
+import { axiosWithAuth } from '../utils/axiosWithAuth';
 
-export const LOGIN_START = "LOGIN_START";
-export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
-export const LOGIN_FAIL = "LOGIN_FAIL";
+export const LOGIN_START = 'LOGIN_START';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_FAIL = 'LOGIN_FAIL';
 
-export const getLoggedIn = creds => dispatch => {
+export const SIGNUP_START = 'SIGNUP_START';
+export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
+export const SIGNUP_FAIL = 'SIGNUP_FAIL';
+
+export const getLoggedIn = (creds) => (dispatch) => {
   dispatch({ type: LOGIN_START });
-  return axios
-    .post("https://weightlifting-app.herokuapp.com/api/login", creds)
-    .then(res => {
-      localStorage.setItem("token", res.data.token);
+  return axiosWithAuth()
+    .post('/auth/login', creds)
+    .then((res) => {
+      localStorage.setItem('token', res.data.token);
+      localStorage.setItem('userId', res.data.id);
+      console.log(res.data);
       dispatch({ type: LOGIN_SUCCESS, payload: res.data });
-      console.log(res);
     })
-    .catch(err => {
-      dispatch({ type: LOGIN_FAIL, payload: err });
+    .catch((err) => {
+      dispatch({ type: LOGIN_FAIL, payload: err.response });
     });
 };
 
-export const SIGNUP_START = "SIGNUP_START";
-export const SIGNUP_SUCCESS = "SIGNUP_SUCCESS";
-export const SIGNUP_FAIL = "SIGNUP_FAIL";
-
-export const getSignedUp = user => dispatch => {
+export const getSignedUp = (user) => (dispatch) => {
   dispatch({ type: SIGNUP_START });
-  return axios
-    .post("https://weightlifting-app.herokuapp.com/api/register", user)
-    .then(response => {
-      // localStorage.setItem("token", response.data.token);
-      dispatch({ type: SIGNUP_SUCCESS, payload: response.data });
-      console.log(response);
+  return axiosWithAuth()
+    .post('/auth/register', user)
+    .then((res) => {
+      localStorage.setItem('token', res.data.token);
+      localStorage.setItem('userId', res.data.id);
+      dispatch({ type: SIGNUP_SUCCESS, payload: res.data });
+      console.log(res);
+    })
+    .catch((err) => {
+      dispatch({ type: SIGNUP_FAIL, payload: err.response });
     });
 };

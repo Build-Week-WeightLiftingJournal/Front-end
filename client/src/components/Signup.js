@@ -1,116 +1,141 @@
-import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import { Link } from "react-router-dom";
-import axios from "axios";
-import { getSignedUp } from "../actions/authActions";
-import { connect } from "react-redux";
+import React, { useState } from 'react';
 
-const Signup = props => {
+// styles
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
+
+// state
+import { getSignedUp } from '../actions/authActions';
+import { connect } from 'react-redux';
+
+import './Styles/Auth.css';
+
+const Signup = (props) => {
   const [user, setUser] = useState({
-    username: "",
-    password: "",
-    checkPassword: ""
+    username: '',
+    password: '',
+    checkPassword: '',
   });
 
-  const handleChanges = e => {
+  const handleChanges = (e) => {
     setUser({
       ...user,
-      [e.target.id]: e.target.value
+      [e.target.id]: e.target.value,
     });
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (user.password === user.checkPassword) {
-      props.getSignedUp({ username: user.username, password: user.password });
-      props.history.push("/workout");
+      props
+        .getSignedUp({ username: user.username, password: user.password })
+        .then(() => props.history.push('/workouts'));
       setUser({
         ...user,
-        username: "",
-        password: "",
-        checkPassword: ""
+        username: '',
+        password: '',
+        checkPassword: '',
       });
     }
   };
-  const useStyles = makeStyles(theme => ({
-    container: {
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-      background: "white",
-      width: 400,
-      height: 430,
-      margin: "50px auto",
-      boxShadow: "0 5px 5px 5px rgba(90, 89, 136, 0.12)"
+  const useStyles = makeStyles((theme) => ({
+    focused: {},
+    outlinedInput: {
+      '&$focused $notchedOutline': {
+        border: '2px solid #00A35E',
+      },
     },
-    textField: {
-      marginLeft: theme.spacing(1),
-      marginRight: theme.spacing(1),
-      width: 300,
-      border: "green"
-    },
-    button: {
-      margin: theme.spacing(1),
-      width: 300
-    },
-    input: {
-      display: "none"
-    }
+    notchedOutline: {},
   }));
   const classes = useStyles(1);
 
+  // if (props.isLoading) {
+  //   return <h1>LOADING</h1>;
+  // }
+
   return (
-    <div>
-      <form onSubmit={handleSubmit} className={classes.container}>
-        <h2>SIGN UP</h2>
+    <div className='form-container'>
+      <div className='left'>
+        <div className='left-text'>
+          <h1>Welcome!</h1>
+          <p>Sign up and start your journey with Weightlifting Journal.</p>
+        </div>
+      </div>
+      <form onSubmit={handleSubmit} className='form'>
+        <h2>Sign Up</h2>
         <div>
           <TextField
-            id="username"
-            className={classes.textField}
-            label="Username"
-            margin="normal"
-            variant="outlined"
+            id='username'
+            placeholder='Username'
+            margin='normal'
+            variant='outlined'
+            className='input'
             onChange={handleChanges}
+            InputProps={{
+              classes: {
+                root: classes.outlinedInput,
+                focused: classes.focused,
+                notchedOutline: classes.notchedOutline,
+              },
+            }}
           />
         </div>
         <div>
           <TextField
-            id="password"
-            className={classes.textField}
-            label="Password"
-            type="password"
-            margin="normal"
-            variant="outlined"
+            id='password'
+            placeholder='Password'
+            type='password'
+            margin='normal'
+            variant='outlined'
             onChange={handleChanges}
+            className='input'
+            InputProps={{
+              classes: {
+                root: classes.outlinedInput,
+                focused: classes.focused,
+                notchedOutline: classes.notchedOutline,
+              },
+            }}
           />
         </div>
         <div>
           <TextField
-            id="checkPassword"
-            className={classes.textField}
-            label="Verify Password"
-            type="password"
-            margin="normal"
-            variant="outlined"
+            id='checkPassword'
+            placeholder='Verify Password'
+            type='password'
+            margin='normal'
+            variant='outlined'
             onChange={handleChanges}
+            className='input'
+            InputProps={{
+              classes: {
+                root: classes.outlinedInput,
+                focused: classes.focused,
+                notchedOutline: classes.notchedOutline,
+              },
+            }}
           />
         </div>
-        <Button type="submit" variant="contained" className={classes.button}>
+        <Button type='submit' variant='contained' className='button'>
           Signup
         </Button>
         <p>
-          Already have an account? <Link to="/login">Login here!</Link>
+          Already have an account?{' '}
+          <Link to='/login' className='redirect'>
+            Login here!
+          </Link>
         </p>
       </form>
     </div>
   );
 };
 
-const mapStateToProps = state => {
-  return state;
+const mapStateToProps = (state) => {
+  return {
+    isLoading: state.auth.isLoading,
+  };
 };
 
 export default connect(mapStateToProps, { getSignedUp })(Signup);

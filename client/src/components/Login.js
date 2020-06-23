@@ -1,96 +1,103 @@
-import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
+import React, { useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { getLoggedIn } from "../actions/authActions";
-import jwt from "jsonwebtoken"
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { getLoggedIn } from '../actions/authActions';
 
-const Login = props => {
-  console.log(jwt.decode(localStorage.getItem("token")))
-  const useStyles = makeStyles(theme => ({
-    container: {
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-      background: "white",
-      width: 380,
-      height: 350,
-      margin: "50px auto",
-      boxShadow: "0 5px 5px 5px rgba(90, 89, 136, 0.12)"
+const Login = (props) => {
+  const useStyles = makeStyles((theme) => ({
+    focused: {},
+    outlinedInput: {
+      '&$focused $notchedOutline': {
+        border: '2px solid #00A35E',
+      },
     },
-    textField: {
-      marginLeft: theme.spacing(1),
-      marginRight: theme.spacing(1),
-      width: 300,
-      border: "green"
-    },
-    button: {
-      margin: theme.spacing(1),
-      width: 300
-    },
-    input: {
-      display: "none"
-    }
+    notchedOutline: {},
   }));
   const classes = useStyles(1);
 
   const [credentials, setCredentials] = useState({
-    username: "",
-    password: ""
+    username: '',
+    password: '',
   });
 
-  const handleChanges = e => {
+  const handleChanges = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
 
-  const login = e => {
+  const login = (e) => {
     e.preventDefault();
-    props.getLoggedIn(credentials).then(() => props.history.push("/workout"));
-    
+    props.getLoggedIn(credentials).then(() => props.history.push('/workouts'));
   };
 
   return (
-    <div>
-      <form onSubmit={login} className={classes.container}>
-        <h2>LOGIN</h2>
+    <div className='form-container'>
+      <div className='left'>
+        <div className='left-text'>
+          <h1>Welcome back!</h1>
+          <p>Keep your Weightlifting Journal up to date!</p>
+        </div>
+      </div>
+      <form onSubmit={login} className='form'>
+        <h2>Login</h2>
         <div>
           <TextField
-            name="username"
-            className={classes.textField}
-            label="Username"
-            margin="normal"
-            variant="outlined"
+            name='username'
+            placeholder='Username'
+            margin='normal'
+            variant='outlined'
             onChange={handleChanges}
+            value={credentials.username}
+            className='input'
+            InputProps={{
+              classes: {
+                root: classes.outlinedInput,
+                focused: classes.focused,
+                notchedOutline: classes.notchedOutline,
+              },
+            }}
           />
         </div>
         <div>
           <TextField
-            name="password"
-            className={classes.textField}
-            label="Password"
-            type="password"
-            margin="normal"
-            variant="outlined"
+            name='password'
+            placeholder='Password'
+            type='password'
+            margin='normal'
+            variant='outlined'
             onChange={handleChanges}
+            value={credentials.password}
+            className='input'
+            InputProps={{
+              classes: {
+                root: classes.outlinedInput,
+                focused: classes.focused,
+                notchedOutline: classes.notchedOutline,
+              },
+            }}
           />
         </div>
-        <Button variant="contained" className={classes.button} type="submit">
+        <Button type='submit' variant='contained' className='button'>
           Login
         </Button>
         <p>
-          Don't have an account? <Link to="/signup">Signup here!</Link>
+          Don't have an account?{' '}
+          <Link to='/signup' className='redirect'>
+            Signup here!
+          </Link>
         </p>
       </form>
     </div>
   );
 };
 
-const mapStateToProps = state => {
-  return state;
+const mapStateToProps = (state) => {
+  return {
+    isLoading: state.auth.isLoading,
+  };
 };
 
 export default connect(mapStateToProps, { getLoggedIn })(Login);

@@ -1,17 +1,15 @@
-import { LOGIN_START, LOGIN_SUCCESS, LOGIN_FAIL } from "../actions/authActions";
+import { LOGIN_START, LOGIN_SUCCESS, LOGIN_FAIL } from '../actions/authActions';
 import {
   SIGNUP_START,
   SIGNUP_SUCCESS,
-  SIGNUP_FAIL
-} from "../actions/authActions";
-import jwt from "jsonwebtoken"
+  SIGNUP_FAIL,
+} from '../actions/authActions';
 
 const initialState = {
-  user: jwt.decode(localStorage.getItem("token")),
   isLoggedIn: false,
   isSignedUp: false,
   isLoading: false,
-  error: ""
+  error: '',
 };
 
 export const authReducer = (state = initialState, action) => {
@@ -21,38 +19,38 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         isLoggedIn: false,
         isLoading: true,
-        error: ""
+        error: '',
       };
     case LOGIN_SUCCESS:
       return {
         ...state,
         isLoggedIn: true,
-        isLoading: false
+        isLoading: false,
       };
     case LOGIN_FAIL:
       return {
         ...state,
         isLoggedIn: false,
-        error: action.payload
+        error: action.payload,
       };
     case SIGNUP_START:
       return {
         ...state,
         isSignedUp: false,
         isLoading: true,
-        error: ""
+        error: '',
       };
     case SIGNUP_SUCCESS:
       return {
         ...state,
         isSignedUp: true,
-        isLoading: false
+        isLoading: false,
       };
     case SIGNUP_FAIL:
       return {
         ...state,
         isSignedUp: false,
-        error: action.payload
+        error: action.payload,
       };
     default:
       return state;
